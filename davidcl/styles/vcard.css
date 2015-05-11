@@ -1,0 +1,10 @@
+/*
+ * This CSS customize the hCard.
+ */
+
+div.vcard {
+	text-align: left;
+	padding: 1em;
+	width: 20em;
+	background: #d3d7cf;
+}

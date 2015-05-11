@@ -1,0 +1,30 @@
+/*
+ * This is the light style for my personnal homepage.
+ *
+ * This style try to handle good appearance in many case.
+ */
+
+html {
+	font-family:
+		Corbel,
+		"Lucida Grande",
+		"Lucida Sans Unicode",
+		"Lucida Sans",
+		"DejaVu Sans",
+		"Bitstream Vera Sans",
+		"Liberation Sans",
+		Verdana,
+		"Verdana Ref",
+		sans serif;
+}
+
+body {
+
+}
+
+/* Footer styles */
+#footer {
+	text-align: center;
+	font-size: 65%;
+}
+

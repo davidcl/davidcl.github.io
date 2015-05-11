@@ -1,0 +1,44 @@
+/*
+ * This is the print style for my personnal homepage.
+ *
+ * This style try to handle good appearance in many case but if you have
+ * problems, you can easily switch to the light stylesheet.
+ */
+
+/* Generic parts */
+html {
+
+}
+
+body {
+
+}
+
+#header {
+	display: none;
+}
+
+/* Links managements */
+a[href]:after{
+	content: " (" attr(href) ")";
+}
+
+/* Content styles */
+#contents {
+	padding-bottom: 3em;
+	text-align: justify;
+	
+	/* These are CSS3 properties */
+	-moz-column-width: 40em;
+	-moz-column-gap: 2em;
+	-moz-column-rule: medium solid;
+	-webkit-column-width: 40em;
+	-webkit-column-gap: 2em;
+	-webkit-column-rule: medium solid;
+}
+
+/* Footer styles */
+#footer {
+	display: none;
+}
+
