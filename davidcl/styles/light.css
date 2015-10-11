@@ -4,27 +4,31 @@
  * This style try to handle good appearance in many case.
  */
 
+/* Generic parts */
 html {
-	font-family:
-		Corbel,
-		"Lucida Grande",
-		"Lucida Sans Unicode",
-		"Lucida Sans",
-		"DejaVu Sans",
-		"Bitstream Vera Sans",
-		"Liberation Sans",
-		Verdana,
-		"Verdana Ref",
-		sans serif;
+
 }
 
 body {
 
 }
 
+/* Header styles */
+#nonFooter {
+}
+
+* html #nonFooter {
+
+}
+
+/* Content styles */
+#contents {
+
+}
+
 /* Footer styles */
 #footer {
 	text-align: center;
-	font-size: 65%;
+	font-size: 70%;
 }
 

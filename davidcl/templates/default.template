@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta name="generator" content=
+  "GNU make coupled with GNU awk to parse templates. Markdown to parse contents." />
+  <meta http-equiv="content-type" content=
+  "text/html; charset=utf-8" />
+  <meta name="author" content="Clément David" />
+  <meta name="keywords" content=
+  "davidcl, clement, david, c.david86" />
+  <meta name="description" content=
+  "Clément David's CV, articles and all official stuff." />
+  <meta name="robots" content="all" />
+
+  <title>Clément David's homepage</title>
+  <link rel="stylesheet" type="text/css" href="/davidcl/styles/default.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="/davidcl/styles/light.css" media="handheld" />
+  <link rel="stylesheet" type="text/css" href="/davidcl/styles/highlight.css" />
+  __:LOCAL_CSS:__
+  <link rel="Shortcut Icon" type="image/x-icon" href="/davidcl/favicon.ico" />
+</head>
+
+<body>
+  <div id="nonFooter">
+    <div id="header"> __:HEADER:__ </div>
+    <div id="toc"></div>
+    <div id="contents"> __:CONTENT:__ </div>
+  </div>
+
+  <div id="footer">
+    <p>© 2009+ Clément David - All texts and images can be used
+    with respect to the <a href=
+    "http://www.opensource.org/licenses/artistic-license-2.0.php">Artistic
+    license 2.0</a>.<br /> Generated on __:DATE:__. 
+    <a href="http://validator.w3.org/check/referer" title="Check the validity of this site&#8217;s XHTML">xhtml</a>
+    <a href="http://jigsaw.w3.org/css-validator/check/referer" title="Check the validity of this site&#8217;s CSS">css</a> &nbsp;</p>
+  </div>
+</body>
+</html>
+

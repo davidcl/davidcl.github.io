@@ -1,0 +1,15 @@
+# Articles #
+
+Article concept is very large. It can apply from text larger than SMS to study
+report.
+
+Sorry, but by know I havent taken time to port articles from my previous
+website archive to the new architecture.
+
+## How this website is created ?##
+
+This website is created with Gnu Awk, Gnu Make and Markdown. See how I generate
+this website without strong dependencies such as PHP, Python or Perl and a database.
+
+[View full article](GnuBasedWebGeneration.xhtml).
+

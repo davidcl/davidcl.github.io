@@ -2,67 +2,38 @@
  * This is the default style for my personnal homepage.
  *
  * This style try to handle good appearance in many case but if you have
- * problems, you can easily switch to the light stylesheet.
+ * problems, you can easily switch to another stylesheet.
  */
 
 /* Generic parts */
 html {
-	height: 98%;
-	font-family:
-		"DejaVu Sans",
-		"Bitstream Vera Sans",
-		"Liberation Sans",
-		Verdana,
-		"Verdana Ref",
-		sans serif;
+	height: 99%;
 }
 
 body {
-	height: 98%;
+	height: 99%;
 }
 
 /* Header styles */
 #nonFooter {
 	position: relative;
-	min-height: 98%;
+	min-height: 99%;
 }
 
 * html #nonFooter {
-	height: 98%;
-}
-
-#banner {
-	text-align: center;
-	letter-spacing: 40px;
-}
-
-#banner:before {
-	/* content: url(http://2009.rmll.info/IMG/gif/728_90.gif);*/
-	content: url(/davidcl/img/openlogo-100.png) " "
-		 url(/davidcl/img/GnomeLogoVertical.png) " "
-		 url(/davidcl/img/heckert_gnu.png) " ";
+	height: 99%;
 }
 
 /* Content styles */
 #contents {
-	padding-bottom: 1em;
-	text-align: justify;
-	
-	/* These are CSS3 properties */
-	column-width: 40em;
-	column-gap: 3em;
-	column-rule: medium solid;
-	-moz-column-width: 40em;
-	-moz-column-gap: 3em;
-	-moz-column-rule: medium solid;
-	-webkit-column-width: 40em;
-	-webkit-column-gap: 3em;
-	-webkit-column-rule: medium solid;
+	padding-bottom: 3em;
 }
 
 /* Footer styles */
 #footer {
 	position: relative;
-	margin-top: -1em;
+	margin-top: -4em;
+	text-align: center;
+	font-size: 70%;
 }
 

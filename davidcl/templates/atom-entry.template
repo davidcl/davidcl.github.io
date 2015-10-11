@@ -1,0 +1,18 @@
+<entry>
+  <title type="xhtml">
+  	_<>_:TITLE:_<>_
+  </title>
+  <link href="
+  	_<>_:HREF:_<>_
+  "/>
+  <id>uri:
+  	_<>_:HREF:_<>_
+  </id>
+  <updated>
+  	_<>_:DATE:_<>_
+  </updated>
+  <content type="xhtml">
+  	_<>_:CONTENT:_<>_
+  </content>
+</entry>
+
