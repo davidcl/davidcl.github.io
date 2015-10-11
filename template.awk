@@ -11,15 +11,15 @@ BEGIN {
 }
 
 /^:HEADER:$/ {
-	print "<a href=\"/davidcl/index.xhtml\">davidcl</a> > " >output;
+	print "<a href=\"/index.html\">davidcl</a>" >output;
 	num_directories = split (output, path, "/");
 	for (i=1; i<num_directories; i++) {
-		print "<a href=\"/davidcl/" path[i] "\">" path[i] "</a>" >output;
+		print "<a href=\"/" path[i] "\">" path[i] "</a>" >output;
 		print " > " >output;
 	}
 	
 	name = path[num_directories];
-	sub (/.xhtml/, "", name);
+	sub (/.html/, "", name);
 	print name >output;
 
 	already_printed = "true";
@@ -50,12 +50,12 @@ BEGIN {
 }
 
 /^:HREF:$/ {
-	print "/davidcl/" input >output;
+	print "/" input >output;
 	already_printed = "true";
 }
 
 /^:LOCAL_CSS:$/ {
-	css = gensub (/\.html/, ".css", "g", input);
+	css = gensub (/\.htm/, ".css", "g", input);
 	if ((getline line <css) > 0)
 		print "<link rel=\"stylesheet\" type=\"text/css\" href=\"" css "\" media=\"all\" />" >output;
 	already_printed = "true";

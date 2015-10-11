@@ -32,7 +32,7 @@ First we must have a symetric pre-suffix readable pattern : <code>\_\_</code> is
 Secondly we need a unique tag name pattern, a one who no man must write. The
 double collumns is not used in a pattern like that: <code>:BLABLABLA:</code>.
 
-[See the template for this site](GnuBasedWebGeneration/default.template.xhtml).
+[See the template for this site](GnuBasedWebGeneration/default.template.html).
 
 ## Awk script ##
 
@@ -67,7 +67,7 @@ For this site, I have the "about", "project", ... directories.
 
 <pre class="hl">
 <span class="hl sym">/</span>^<span class="hl sym">:</span>HEADER<span class="hl sym">:</span>$<span class="hl sym">/ {</span>
-	<span class="hl kwa">print</span> <span class="hl str">&quot;&lt;a href=</span><span class="hl esc">\&quot;</span><span class="hl str">/davidcl/index.xhtml</span><span class="hl esc">\&quot;</span><span class="hl str">&gt;davidcl&lt;/a&gt; &gt; &quot;</span> <span class="hl sym">&gt;</span>output<span class="hl sym">;</span>
+	<span class="hl kwa">print</span> <span class="hl str">&quot;&lt;a href=</span><span class="hl esc">\&quot;</span><span class="hl str">/davidcl/index.html</span><span class="hl esc">\&quot;</span><span class="hl str">&gt;davidcl&lt;/a&gt; &gt; &quot;</span> <span class="hl sym">&gt;</span>output<span class="hl sym">;</span>
 	num_directories <span class="hl sym">=</span> <span class="hl kwa">split</span> <span class="hl sym">(</span>output<span class="hl sym">,</span> path<span class="hl sym">,</span> <span class="hl str">&quot;/&quot;</span><span class="hl sym">);</span>
 	<span class="hl kwa">for</span> <span class="hl sym">(</span>i<span class="hl sym">=</span><span class="hl num">1</span><span class="hl sym">;</span> i<span class="hl sym">&lt;</span>num_directories<span class="hl sym">;</span> i<span class="hl sym">++) {</span>
 		<span class="hl kwa">print</span> <span class="hl str">&quot;&lt;a href=</span><span class="hl esc">\&quot;</span><span class="hl str">/davidcl/&quot;</span> path<span class="hl sym">[</span>i<span class="hl sym">]</span> <span class="hl str">&quot;</span><span class="hl esc">\&quot;</span><span class="hl str">&gt;&quot;</span> path<span class="hl sym">[</span>i<span class="hl sym">]</span> <span class="hl str">&quot;&lt;/a&gt;&quot;</span> <span class="hl sym">&gt;</span>output<span class="hl sym">;</span>
@@ -75,14 +75,14 @@ For this site, I have the "about", "project", ... directories.
 	<span class="hl sym">}</span>
 
 	name <span class="hl sym">=</span> path<span class="hl sym">[</span>num_directories<span class="hl sym">];</span>
-	<span class="hl kwa">sub</span> <span class="hl sym">(/</span>.xhtml<span class="hl sym">/,</span> <span class="hl str">&quot;&quot;</span><span class="hl sym">,</span> name<span class="hl sym">);</span>
+	<span class="hl kwa">sub</span> <span class="hl sym">(/</span>.html<span class="hl sym">/,</span> <span class="hl str">&quot;&quot;</span><span class="hl sym">,</span> name<span class="hl sym">);</span>
 	<span class="hl kwa">print</span> name <span class="hl sym">&gt;</span>output<span class="hl sym">;</span>
 
 	already_printed <span class="hl sym">=</span> <span class="hl str">&quot;true&quot;</span><span class="hl sym">;</span>
 <span class="hl sym">}</span>
 </pre>
 
-[See the script for this site](GnuBasedWebGeneration/template.awk.xhtml).
+[See the script for this site](GnuBasedWebGeneration/template.awk.html).
 
 ## Makefile ##
 
@@ -110,27 +110,27 @@ directories <span class="hl sym">+=</span> . styles
 </pre>
 
 After this configuration definition we search for all .text (Markdown content) 
-files, all .html (xhtml content) files and all others files (images, css).
+files, all .htm (xhtml content) files and all others files (images, css).
 
 Then rules are defined. First, global commands :
 
-*   site : update all .xhtml files from content files (.text or .html)
+*   site : update all .html files from content files (.text or .htm)
 *   update : sync all modified local files to the web.
 *   feed : will generate atom feed for the latest modification (*Not implemented yet*).
 
 Secondly, generic commands :
 <pre class="hl">
-<span class="hl sym">%</span>.html<span class="hl sym">: %</span>.text
+<span class="hl sym">%</span>.htm<span class="hl sym">: %</span>.text
 	<span class="hl sym">$(</span>MARKDOWN<span class="hl sym">) $&lt; &gt; $</span>&#64;
 
-<span class="hl sym">%</span>.xhtml<span class="hl sym">: %</span>.html templates<span class="hl sym">/</span>default.template template.awk
+<span class="hl sym">%</span>.html<span class="hl sym">: %</span>.htm templates<span class="hl sym">/</span>default.template template.awk
 	<span class="hl sym">$(</span>AWK<span class="hl sym">) -</span>f template.awk <span class="hl sym">-</span>v input<span class="hl sym">=</span><span class="hl str">&quot;$&lt;&quot;</span> <span class="hl sym">-</span>v output<span class="hl sym">=</span><span class="hl str">&quot;$&#64;&quot;</span> templates<span class="hl sym">/</span>default.template
 
-<span class="hl sym">%</span>.atom<span class="hl sym">: %</span>.html templates<span class="hl sym">/</span>atom-entry.template template.awk
+<span class="hl sym">%</span>.atom<span class="hl sym">: %</span>.htm templates<span class="hl sym">/</span>atom-entry.template template.awk
 	<span class="hl sym">$(</span>AWK<span class="hl sym">) -</span>f template.awk <span class="hl sym">-</span>v input<span class="hl sym">=</span><span class="hl str">&quot;$&lt;&quot;</span> <span class="hl sym">-</span>v output<span class="hl sym">=</span><span class="hl str">&quot;$&#64;&quot;</span> templates<span class="hl sym">/</span>atom-entry.template
 </pre>
 
-[See the makefile for this site](GnuBasedWebGeneration/Makefile.xhtml).
+[See the makefile for this site](GnuBasedWebGeneration/Makefile.html).
 
 ## Download ##
 

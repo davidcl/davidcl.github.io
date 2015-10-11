@@ -24,7 +24,7 @@ directories += . styles
 
 # Setting helpers variables
 text-files = $(wildcard $(addsuffix /*.text, $(directories)))
-html-files = $(wildcard $(addsuffix /*.html, $(directories)))
+html-files = $(wildcard $(addsuffix /*.htm, $(directories)))
 
 img-files = $(wildcard $(addsuffix /*.png, $(directories))) \
 		$(wildcard $(addsuffix /*.jpg, $(directories))) \
@@ -32,8 +32,8 @@ img-files = $(wildcard $(addsuffix /*.png, $(directories))) \
 other-files = $(wildcard $(addsuffix /*.ico, $(directories))) \
 		$(wildcard $(addsuffix /*.css, $(directories)))
 
-all-xhtml = $(text-files:%.text=%.xhtml) $(html-files:%.html=%.xhtml)
-all-atom = $(text-files:%.text=%.atom) $(html-files:%.html=%.atom)
+all-html = $(text-files:%.text=%.html) $(html-files:%.htm=%.html) 
+all-atom = $(text-files:%.text=%.atom) $(html-files:%.htm=%.atom)
 
 # Commands
 default:
@@ -46,30 +46,31 @@ default:
 
 all: site update
 
-site: $(all-xhtml)
+site: $(all-html)
 
 feed: $(all-atom)
 	@echo "feed is not implemented by now" > /dev/stderr
 
-update: $(all-xhtml) $(img-files) $(other-files)
+update: $(all-html) $(img-files) $(other-files)
 	# $(SH) ./update.sh $?
 	echo "update is disabled, use git to commit and push"
 	$(TOUCH) update
 
 .PHONY: clean
 clean:
-	$(RM) $(text-files:%.text=%.html)
-	$(RM) $(all-xhtml)
+	$(RM) $(text-files:%.text=%.htm)
+	$(RM) $(text-files:%.text=%.xhtml) $(html-files:%.htm=%.xhtml)
+	$(RM) $(all-html)
 	$(RM) $(all-atom)
 	$(RM) update
 
 # Generic rules
-%.html: %.text
-	$(MARKDOWN) $< > $@
+%.htm: %.text
+	$(MARKDOWN) $(MARKDOWNFLAGS) $< > $@
 
-%.xhtml: %.html templates/default.template template.awk
+%.html: %.htm templates/default.template template.awk
 	$(AWK) -f template.awk -v input="$<" -v output="$@" templates/default.template
 
-%.atom: %.html templates/atom-entry.template template.awk
+%.atom: %.htm templates/atom-entry.template template.awk
 	$(AWK) -f template.awk -v input="$<" -v output="$@" templates/atom-entry.template
 
