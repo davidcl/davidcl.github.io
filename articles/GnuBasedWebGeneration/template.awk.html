@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>../../template.awk</title>
+<link rel="stylesheet" type="text/css" href="highlight.css">
+</head>
+<body class="hl">
+<pre class="hl"><span class="hl slc">#</span>
+<span class="hl slc"># This file parse tokens in the template and remplace them by the content file.</span>
+<span class="hl slc">#</span>
+<span class="hl slc"># Note: the input variable contains the content filename and output contains</span>
+<span class="hl slc"># the output file name.</span>
+<span class="hl slc">#</span>
+
+BEGIN <span class="hl opt">{</span>
+	RS <span class="hl opt">=</span> <span class="hl str">&quot;__&quot;</span><span class="hl opt">;</span>
+	already_printed <span class="hl opt">=</span> <span class="hl str">&quot;false&quot;</span><span class="hl opt">;</span>
+<span class="hl opt">}</span>
+
+<span class="hl opt">/</span>^<span class="hl opt">:</span>HEADER<span class="hl opt">:$/ {</span>
+	<span class="hl kwa">print</span> <span class="hl str">&quot;&lt;a href=</span><span class="hl esc">\&quot;</span><span class="hl str">/index.html</span><span class="hl esc">\&quot;</span><span class="hl str">&gt;davidcl&lt;/a&gt;&quot;</span> <span class="hl opt">&gt;</span>output<span class="hl opt">;</span>
+	num_directories <span class="hl opt">=</span> split <span class="hl opt">(</span>output<span class="hl opt">,</span> path<span class="hl opt">,</span> <span class="hl str">&quot;/&quot;</span><span class="hl opt">);</span>
+	for <span class="hl opt">(</span>i<span class="hl opt">=</span><span class="hl num">1</span><span class="hl opt">;</span> i<span class="hl opt">&lt;</span>num_directories<span class="hl opt">;</span> i<span class="hl opt">++) {</span>
+		<span class="hl kwa">print</span> <span class="hl str">&quot;&lt;a href=</span><span class="hl esc">\&quot;</span><span class="hl str">/&quot;</span> path<span class="hl opt">[</span>i<span class="hl opt">]</span> <span class="hl str">&quot;</span><span class="hl esc">\&quot;</span><span class="hl str">&gt;&quot;</span> path<span class="hl opt">[</span>i<span class="hl opt">]</span> <span class="hl str">&quot;&lt;/a&gt;&quot;</span> <span class="hl opt">&gt;</span>output<span class="hl opt">;</span>
+		<span class="hl kwa">print</span> <span class="hl str">&quot; &gt; &quot;</span> <span class="hl opt">&gt;</span>output<span class="hl opt">;</span>
+	<span class="hl opt">}</span>
+	
+	name <span class="hl opt">=</span> path<span class="hl opt">[</span>num_directories<span class="hl opt">];</span>
+	sub <span class="hl opt">(/</span>.html<span class="hl opt">/,</span> <span class="hl str">&quot;&quot;</span><span class="hl opt">,</span> name<span class="hl opt">);</span>
+	<span class="hl kwa">print</span> name <span class="hl opt">&gt;</span>output<span class="hl opt">;</span>
+
+	already_printed <span class="hl opt">=</span> <span class="hl str">&quot;true&quot;</span><span class="hl opt">;</span>
+<span class="hl opt">}</span>
+
+<span class="hl opt">/</span>^<span class="hl opt">:</span>CONTENT<span class="hl opt">:$/ {</span>
+	while <span class="hl opt">((</span>getline content <span class="hl opt">&lt;</span>input<span class="hl opt">) &gt;</span> <span class="hl num">0</span><span class="hl opt">)</span>
+		<span class="hl kwa">print</span> content <span class="hl opt">&gt;</span>output<span class="hl opt">;</span>
+	already_printed <span class="hl opt">=</span> <span class="hl str">&quot;true&quot;</span><span class="hl opt">;</span>
+<span class="hl opt">}</span>
+
+<span class="hl opt">/</span>^<span class="hl opt">:</span>TITLE<span class="hl opt">:$/ {</span>
+	<span class="hl slc"># We only put the first line of text to the title</span>
+	getline content <span class="hl opt">&lt;</span>input<span class="hl opt">;</span>
+	<span class="hl kwa">print</span> content <span class="hl opt">&gt;</span>output<span class="hl opt">;</span>
+	close<span class="hl opt">(</span>input<span class="hl opt">)</span>
+	already_printed <span class="hl opt">=</span> <span class="hl str">&quot;true&quot;</span><span class="hl opt">;</span>
+<span class="hl opt">}</span>
+
+<span class="hl opt">/</span>^<span class="hl opt">:</span>DATE<span class="hl opt">:$/ {</span>
+	now <span class="hl opt">=</span> systime <span class="hl opt">();</span>
+	string <span class="hl opt">=</span> strftime <span class="hl opt">(</span><span class="hl str">&quot;%Y-%m-%dT%H:%M:%S&quot;</span><span class="hl opt">,</span> now<span class="hl opt">);</span>
+	tz_offset <span class="hl opt">=</span> strftime <span class="hl opt">(</span><span class="hl str">&quot;%z&quot;</span><span class="hl opt">,</span> now<span class="hl opt">);</span>
+	<span class="hl slc"># Conversion from +0200 to +02:00</span>
+	string2 <span class="hl opt">=</span> substr<span class="hl opt">(</span>tz_offset<span class="hl opt">,</span> <span class="hl num">1</span><span class="hl opt">,</span> <span class="hl num">3</span><span class="hl opt">)</span> <span class="hl str">&quot;:&quot;</span> substr<span class="hl opt">(</span>tz_offset<span class="hl opt">,</span> <span class="hl num">4</span><span class="hl opt">);</span>
+	<span class="hl kwa">print</span> string string2 <span class="hl opt">&gt;</span>output<span class="hl opt">;</span>
+	already_printed <span class="hl opt">=</span> <span class="hl str">&quot;true&quot;</span><span class="hl opt">;</span>
+<span class="hl opt">}</span>
+
+<span class="hl opt">/</span>^<span class="hl opt">:</span>HREF<span class="hl opt">:$/ {</span>
+	<span class="hl kwa">print</span> <span class="hl str">&quot;/&quot;</span> input <span class="hl opt">&gt;</span>output<span class="hl opt">;</span>
+	already_printed <span class="hl opt">=</span> <span class="hl str">&quot;true&quot;</span><span class="hl opt">;</span>
+<span class="hl opt">}</span>
+
+<span class="hl opt">/</span>^<span class="hl opt">:</span>LOCAL_CSS<span class="hl opt">:$/ {</span>
+	css <span class="hl opt">=</span> gensub <span class="hl opt">(/</span>\.htm<span class="hl opt">/,</span> <span class="hl str">&quot;.css&quot;</span><span class="hl opt">,</span> <span class="hl str">&quot;g&quot;</span><span class="hl opt">,</span> input<span class="hl opt">);</span>
+	if <span class="hl opt">((</span>getline line <span class="hl opt">&lt;</span>css<span class="hl opt">) &gt;</span> <span class="hl num">0</span><span class="hl opt">)</span>
+		<span class="hl kwa">print</span> <span class="hl str">&quot;&lt;link rel=</span><span class="hl esc">\&quot;</span><span class="hl str">stylesheet</span><span class="hl esc">\&quot;</span> <span class="hl str">type=</span><span class="hl esc">\&quot;</span><span class="hl str">text/css</span><span class="hl esc">\&quot;</span> <span class="hl str">href=</span><span class="hl esc">\&quot;</span><span class="hl str">&quot;</span> css <span class="hl str">&quot;</span><span class="hl esc">\&quot;</span> <span class="hl str">media=</span><span class="hl esc">\&quot;</span><span class="hl str">all</span><span class="hl esc">\&quot;</span> <span class="hl str">/&gt;&quot;</span> <span class="hl opt">&gt;</span>output<span class="hl opt">;</span>
+	already_printed <span class="hl opt">=</span> <span class="hl str">&quot;true&quot;</span><span class="hl opt">;</span>
+<span class="hl opt">}</span>
+
+<span class="hl opt">{</span>
+	if <span class="hl opt">(</span>already_printed <span class="hl opt">!=</span> <span class="hl str">&quot;true&quot;</span><span class="hl opt">)</span>
+		<span class="hl kwa">print</span> <span class="hl kwd">$0</span> <span class="hl opt">&gt;</span>output<span class="hl opt">;</span>
+
+	already_printed <span class="hl opt">=</span> <span class="hl str">&quot;false&quot;</span><span class="hl opt">;</span>
+<span class="hl opt">}</span>
+
+</pre>
+</body>
+</html>
+<!--HTML generated by highlight 3.22, http://www.andre-simon.de/-->

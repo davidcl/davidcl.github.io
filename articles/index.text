@@ -11,5 +11,5 @@ website archive to the new architecture.
 This website is created with Gnu Awk, Gnu Make and Markdown. See how I generate
 this website without strong dependencies such as PHP, Python or Perl and a database.
 
-[View full article](GnuBasedWebGeneration.xhtml).
+[View full article](GnuBasedWebGeneration.html).
 
