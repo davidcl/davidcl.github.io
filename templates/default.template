@@ -12,8 +12,8 @@
   <meta name="robots" content="all" />
 
   <title>Clément David's homepage</title>
-  <link rel="stylesheet" type="text/css" href="/styles/default.css" media="screen and (width >= 600px)" />
-  <link rel="stylesheet" type="text/css" href="/styles/light.css" media="screen and (width < 600px)"  />
+  <link rel="stylesheet" type="text/css" href="/styles/default.css" media="screen and (min-width: 600px)" />
+  <link rel="stylesheet" type="text/css" href="/styles/light.css" media="screen and (max-width: 600px)"  />
   <link rel="stylesheet" type="text/css" href="/styles/highlight.css" />
   __:LOCAL_CSS:__
   <link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico" />
