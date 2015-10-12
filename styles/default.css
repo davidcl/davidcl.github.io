@@ -2,38 +2,58 @@
  * This is the default style for my personnal homepage.
  *
  * This style try to handle good appearance in many case but if you have
- * problems, you can easily switch to another stylesheet.
+ * problems, you can easily switch to the light stylesheet.
  */
 
 /* Generic parts */
 html {
-	height: 99%;
+    height: 98%;
+    font-family:
+    "DejaVu Sans",
+    "Bitstream Vera Sans",
+    "Liberation Sans",
+    Verdana,
+    "Verdana Ref",
+    sans serif;
 }
 
 body {
-	height: 99%;
 }
 
 /* Header styles */
-#nonFooter {
-	position: relative;
-	min-height: 99%;
+
+#banner {
+    text-align: center;
+    /* letter-spacing: 40px; */
 }
 
-* html #nonFooter {
-	height: 99%;
+#banner:before {
+    /* content: url(http://2009.rmll.info/IMG/gif/728_90.gif);*/
+    content: url(/img/Fedora_infinity.png) " "
+    url(/img/GnomeLogoVertical.png) " "
+    url(/img/heckert_gnu.png) " ";
 }
 
 /* Content styles */
 #contents {
-	padding-bottom: 3em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    text-align: justify;
+
+    /* These are CSS3 properties */
+    column-width: 40em;
+    column-gap: 3em;
+    column-rule: medium solid;
+    -moz-column-width: 40em;
+    -moz-column-gap: 3em;
+    -moz-column-rule: medium solid;
+    -webkit-column-width: 40em;
+    -webkit-column-gap: 3em;
+    -webkit-column-rule: medium solid;
 }
 
 /* Footer styles */
 #footer {
-	position: relative;
-	margin-top: -4em;
-	text-align: center;
-	font-size: 70%;
+    font-size: 65%;
 }
 
