@@ -1,5 +1,8 @@
 # Projects #
 
-Sorry, but by know I havent taken time to port projects articles from my
-previous website archive to the new architecture.
+* [Vala benchmarks](ValaBenchmarks.html)
+
+    This project aims to implement "The Computer Language Benchmarks Game"
+in Vala.
+
 

@@ -1,15 +1,26 @@
 # Articles #
 
-Article concept is very large. It can apply from text larger than SMS to study
-report.
-
-Sorry, but by know I havent taken time to port articles from my previous
-website archive to the new architecture.
-
 ## How this website is created ?##
 
 This website is created with Gnu Awk, Gnu Make and Markdown. See how I generate
 this website without strong dependencies such as PHP, Python or Perl and a database.
 
 [View full article](GnuBasedWebGeneration.html).
+
+## Wesnoth for cheaters ##
+
+[Battle for Wesnoth](http://www.wesnoth.org) is an Open-source game that I sometimes
+play on my spare time. But instead of trying hard to finish the campaign, I
+hacked the save format to heal my heroes.
+
+[View full article](WesnothSaveParser.html).
+
+## GCov merging tool ##
+
+[GCC coverage](https://gcc.gnu.org/onlinedocs/gcc/Gcov.html) is a tool used
+to test code coverage in your programs. However if it only works for a build
+without handling compile-time `#define` nor `#ifdef`. I wrote a simple awk 
+script to merge the results for some build configuration.
+
+[View full article](GcovMergingTool.html).
 

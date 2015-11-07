@@ -14,13 +14,14 @@ BEGIN {
 	print "<a href=\"/index.html\">davidcl</a>" >output;
 	num_directories = split (output, path, "/");
 	for (i=1; i<num_directories; i++) {
-		print "<a href=\"/" path[i] "\">" path[i] "</a>" >output;
-		print " > " >output;
+		print "<a href=\"/" path[i] "/index.html\">" path[i] "</a>" >output;
 	}
 	
 	name = path[num_directories];
-	sub (/.html/, "", name);
-	print name >output;
+        if (name != "index.html") {
+		sub (/.html/, "", name);
+		print name >output;
+        }
 
 	already_printed = "true";
 }

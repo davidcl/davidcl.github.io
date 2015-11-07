@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta name="generator" content="GNU make coupled with GNU awk to parse templates. Markdown to parse contents." />
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="author" content="Clément David" />
+        <meta name="keywords" content=
+"davidcl, clement, david, c.david86" />
+        <meta name="description" content=
+"Clément David's CV, articles and all official stuff." />
+        <meta name="robots" content="all" />
+        
+        <title>Clément David's homepage</title>
+        <link rel="stylesheet" type="text/css" href="/styles/light.css" media="screen" />
+        <link rel="stylesheet" type="text/css" href="/styles/default.css" media="screen and (min-width: 600px)" />
+        <link rel="stylesheet" type="text/css" href="/styles/highlight.css" />
+        
+
+        <link rel="icon" type="image/png" href="/favicon.png" />
+    </head>
+    
+    <body>
+        <div id="banner"></div>
+        <div id="header"> 
+<a href="/index.html">davidcl</a>
+<a href="/projects/index.html">projects</a>
+ValaBenchmarks
+ </div>
+        <div id="contents"> 
+<p><a href="http://live.gnome.com/Vala">Vala Programming Language</a> is a programme
+that use the GObject API. It represent another language to target a
+platform like C#/ECMA-CLI and Java/J2RE. We have now Vala/GObject.</p>
+
+<p>After some discussion on the mailing-list and IRC, I think that there is
+a need to provide benchmarks : Vala vs C and C#.</p>
+
+<p><em>UPDATE</em> : As a work in progress, this project is now open to everyone
+at <a href="http://code.google.com/p/vala-benchmarks/">Google code</a>.</p>
+
+<p>After taking some time to make a complete structure of Makefile, I
+generate some beautiful benchmarks from the generated CSV file. There is
+now 8 benchmarks with very interesting results. I want to thanks Jürg
+Billeter for his help on some benchs.</p>
+
+<p>The project is easy to understand. It can help you learning Vala basics.</p>
+
+<h2>The results</h2>
+
+<p>Links:</p>
+
+<ul>
+<li><a href="http://vala-benchmarks.googlecode.com">The project</a></li>
+<li><a href="http://live.gnome.org/Vala">Vala</a></li>
+</ul>
+
+
+<h3>Time Results</h3>
+
+<p>The time results indicate are in seconds. For more informations, <a href="http://code.google.com/p/vala-benchmarks/w/list">see
+the benchmarks rules</a>.</p>
+
+<hr />
+
+<p>  Bench Name     Mono    Vala    plain-C
+  mandelbrot     15.50   4.63    3.74
+  partialSums    34.22   21.06   21.16
+  recursive      5.91    2.15    1.96
+  binaryTrees    8.55    4.02    2.81
+  sumFile        4.46    2.28    2.04
+  fannkuch       16.22   6.85    6.26
+  spectralNorm   30.40   20.07   19.78
+  nsieve         5.51    4.96    5.00</p>
+
+<hr />
+
+<h3>Size Results</h3>
+
+<p>The size results come from : <code>bash$ gzip -c program |wc -c &gt; out.csv</code></p>
+
+<hr />
+
+<p>  Bench Name     Mono   Vala   plain-C
+  mandelbrot     1281   2465   2118
+  partialSums    1416   4701   4333
+  recursive      1397   4821   4652
+  binaryTrees    1461   3755   3876
+  sumFile        1094   2164   1767
+  fannkuch       1378   3425   2787
+  spectralNorm   1416   3162   3533
+  nsieve         1172   1939   1873</p>
+
+<hr />
+
+<p>NOTE: Mono size is very small but you must add the size of the runtime
+:) : 679542</p>
+
+<h3>The graphs</h3>
+
+<p><img src="vala-benchmarks/results.png" alt="The results" /></p>
+
+ </div>
+        
+        <div id="footer">
+            <p>© 2009+ Clément David - All texts and images can be used
+                with respect to the <a href=
+            "http://www.opensource.org/licenses/artistic-license-2.0.php">Artistic
+                    license 2.0
+                </a>
+                .<br />
+                 Generated on 
+2015-11-07T17:18:57+01:00
+. 
+                <a href="http://validator.w3.org/check/referer" title="Check the validity of this site&#8217;s HTML">html</a>
+                <a href="http://jigsaw.w3.org/css-validator/check/referer" title="Check the validity of this site&#8217;s CSS">css</a>
+            </p>
+        </div>
+    </body>
+</html>
+
+

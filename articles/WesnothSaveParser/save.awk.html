@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta name="generator" content="GNU make coupled with GNU awk to parse templates. Markdown to parse contents." />
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="author" content="Clément David" />
+        <meta name="keywords" content=
+"davidcl, clement, david, c.david86" />
+        <meta name="description" content=
+"Clément David's CV, articles and all official stuff." />
+        <meta name="robots" content="all" />
+        
+        <title>Clément David's homepage</title>
+        <link rel="stylesheet" type="text/css" href="/styles/light.css" media="screen" />
+        <link rel="stylesheet" type="text/css" href="/styles/default.css" media="screen and (min-width: 600px)" />
+        <link rel="stylesheet" type="text/css" href="/styles/highlight.css" />
+        
+
+        <link rel="icon" type="image/png" href="/favicon.png" />
+    </head>
+    
+    <body>
+        <div id="banner"></div>
+        <div id="header"> 
+<a href="/index.html">davidcl</a>
+<a href="/articles/index.html">articles</a>
+<a href="/WesnothSaveParser/index.html">WesnothSaveParser</a>
+save.awk
+ </div>
+        <div id="contents"> 
+<span class="hl slc">#</span>
+<span class="hl slc"># Launch with :  zcat Modif-old.gz | gawk -f save.awk | gzip &gt; Modif.gz</span>
+<span class="hl slc">#</span>
+
+<span class="hl kwa">BEGIN</span> <span class="hl opt">{</span>
+	side_found = <span class="hl str">&quot;&quot;</span><span class="hl opt">;</span>
+	on_unit = <span class="hl str">&quot;false&quot;</span><span class="hl opt">;</span>
+	dont_print = <span class="hl str">&quot;false&quot;</span><span class="hl opt">;</span>
+
+	entete = <span class="hl str">&quot;## Modified values&quot;</span><span class="hl opt">;</span>
+	tab_indent = <span class="hl str">&quot;&quot;</span><span class="hl opt">;</span>
+	max_exp_value = <span class="hl str">&quot;1&quot;</span><span class="hl opt">;</span>
+	exp_value = <span class="hl str">&quot;0&quot;</span><span class="hl opt">;</span>
+	max_hitpoints_value = <span class="hl str">&quot;9999&quot;</span><span class="hl opt">;</span>
+	other_players_hitpoints = <span class="hl str">&quot;1&quot;</span><span class="hl opt">;</span>
+
+	<span class="hl slc"># CONFIG</span>
+	config_sides = <span class="hl str">&quot;1&quot;</span><span class="hl opt">;</span>
+
+	<span class="hl slc"># DEBUG</span>
+	DEBUG = <span class="hl num">0</span><span class="hl opt">;</span>
+
+	num_side_found = <span class="hl num">0</span><span class="hl opt">;</span>
+	num_max_exp_found = <span class="hl num">0</span><span class="hl opt">;</span>
+	num_exp_found = <span class="hl num">0</span><span class="hl opt">;</span>
+	num_unit_found = <span class="hl num">0</span><span class="hl opt">;</span>
+	not_accessable_unit = <span class="hl num">0</span><span class="hl opt">;</span>
+	num_max_hit_found = <span class="hl num">0</span><span class="hl opt">;</span>
+	num_hit_found = <span class="hl num">0</span><span class="hl opt">;</span>
+<span class="hl opt">}</span>
+
+<span class="hl slc"># For all brackets</span>
+<span class="hl opt">/</span>\<span class="hl opt">[(</span>\<span class="hl opt">/)</span>?<span class="hl opt">[[:</span>alnum<span class="hl opt">:]]+</span>\<span class="hl opt">]/ {</span>
+	on_unit = <span class="hl str">&quot;false&quot;</span><span class="hl opt">;</span>
+	side_found = <span class="hl str">&quot;&quot;</span><span class="hl opt">;</span>
+	not_accessable_unit<span class="hl opt">++;</span>
+<span class="hl opt">}</span>
+
+<span class="hl slc"># For `[unit]` expression</span>
+<span class="hl opt">/</span>\<span class="hl opt">[</span>unit\<span class="hl opt">]/ {</span>
+	on_unit = <span class="hl str">&quot;true&quot;</span><span class="hl opt">;</span>
+	num_unit_found<span class="hl opt">++;</span>
+<span class="hl opt">}</span>
+
+<span class="hl slc"># For this script `##` previous comments</span>
+<span class="hl opt">/</span>\<span class="hl slc">#\#/ {</span>
+	dont_print = <span class="hl str">&quot;true&quot;</span><span class="hl opt">;</span>
+<span class="hl opt">}</span>
+
+<span class="hl opt">{</span>
+	<span class="hl kwa">if</span> <span class="hl opt">(</span>on_unit == <span class="hl str">&quot;true&quot;</span><span class="hl opt">) {</span>
+
+		<span class="hl kwa">split</span> <span class="hl opt">(</span>$<span class="hl num">1</span><span class="hl opt">,</span> result<span class="hl opt">,</span> <span class="hl str">&quot;=&quot;</span><span class="hl opt">);</span>
+		<span class="hl kwa">gsub</span> <span class="hl opt">(/</span><span class="hl esc">\&quot;</span><span class="hl opt">/,</span> <span class="hl str">&quot;&quot;</span><span class="hl opt">,</span> result<span class="hl opt">[</span><span class="hl num">2</span><span class="hl opt">]);</span>
+
+		<span class="hl kwa">if</span> <span class="hl opt">(</span>result<span class="hl opt">[</span><span class="hl num">1</span><span class="hl opt">]</span> == <span class="hl str">&quot;side&quot;</span> <span class="hl opt">) {</span>
+			side_found = <span class="hl str">&quot;false&quot;</span><span class="hl opt">;</span>
+			<span class="hl kwa">split</span> <span class="hl opt">(</span>config_sides<span class="hl opt">,</span> conf_sides<span class="hl opt">,</span> <span class="hl str">&quot; &quot;</span><span class="hl opt">);</span>
+			<span class="hl kwa">for</span> <span class="hl opt">(</span>side in conf_sides<span class="hl opt">) {</span>
+				<span class="hl kwa">if</span> <span class="hl opt">(</span>result<span class="hl opt">[</span><span class="hl num">2</span><span class="hl opt">]</span> == conf_sides<span class="hl opt">[</span>side<span class="hl opt">]) {</span>
+					num_side_found<span class="hl opt">++;</span>
+					side_found = <span class="hl str">&quot;true&quot;</span><span class="hl opt">;</span>
+				<span class="hl opt">}</span>
+			<span class="hl opt">}</span>
+		<span class="hl opt">}</span>
+
+		<span class="hl kwa">if</span> <span class="hl opt">(</span>result<span class="hl opt">[</span><span class="hl num">1</span><span class="hl opt">]</span> == <span class="hl str">&quot;max_experience&quot;</span><span class="hl opt">) {</span>
+			num_max_exp_found<span class="hl opt">++;</span>
+			max_exp = result<span class="hl opt">[</span><span class="hl num">2</span><span class="hl opt">];</span>
+
+			<span class="hl slc"># special case where hand-written max_exp</span>
+			<span class="hl kwa">if</span> <span class="hl opt">(</span>max_exp <span class="hl opt">&lt;</span> <span class="hl num">20</span><span class="hl opt">) {</span>
+				max_exp = <span class="hl num">20</span><span class="hl opt">;</span>
+				reset_max_exp=<span class="hl num">1</span><span class="hl opt">;</span>
+				dont_print=<span class="hl str">&quot;true&quot;</span><span class="hl opt">;</span>
+			<span class="hl opt">}</span>
+		<span class="hl opt">}</span>
+
+		<span class="hl kwa">if</span> <span class="hl opt">(</span>result<span class="hl opt">[</span><span class="hl num">1</span><span class="hl opt">]</span> == <span class="hl str">&quot;experience&quot;</span><span class="hl opt">) {</span>
+			num_exp_found<span class="hl opt">++;</span>
+			experience = result<span class="hl opt">[</span><span class="hl num">2</span><span class="hl opt">];</span>
+			dont_print = <span class="hl str">&quot;true&quot;</span><span class="hl opt">;</span>
+		<span class="hl opt">}</span>
+
+		<span class="hl kwa">if</span> <span class="hl opt">(</span>result<span class="hl opt">[</span><span class="hl num">1</span><span class="hl opt">]</span> == <span class="hl str">&quot;max_hitpoints&quot;</span><span class="hl opt">) {</span>
+			num_max_hit_found<span class="hl opt">++;</span>
+			max_hitpoints = result<span class="hl opt">[</span><span class="hl num">2</span><span class="hl opt">];</span>
+		<span class="hl opt">}</span>
+
+		<span class="hl kwa">if</span> <span class="hl opt">(</span>result<span class="hl opt">[</span><span class="hl num">1</span><span class="hl opt">]</span> == <span class="hl str">&quot;hitpoints&quot;</span><span class="hl opt">) {</span>
+			num_hit_found<span class="hl opt">++;</span>
+			hitpoints = result<span class="hl opt">[</span><span class="hl num">2</span><span class="hl opt">];</span>
+			dont_print = <span class="hl str">&quot;true&quot;</span><span class="hl opt">;</span>
+		<span class="hl opt">}</span>
+
+		<span class="hl kwa">if</span> <span class="hl opt">(</span>result<span class="hl opt">[</span><span class="hl num">1</span><span class="hl opt">]</span> == <span class="hl str">&quot;max_moves&quot;</span><span class="hl opt">) {</span>
+			max_moves = result<span class="hl opt">[</span><span class="hl num">2</span><span class="hl opt">];</span>
+		<span class="hl opt">}</span>
+
+		<span class="hl kwa">if</span> <span class="hl opt">(</span>result<span class="hl opt">[</span><span class="hl num">1</span><span class="hl opt">]</span> == <span class="hl str">&quot;movement&quot;</span><span class="hl opt">) {</span>
+			movement = result<span class="hl opt">[</span><span class="hl num">2</span><span class="hl opt">];</span>
+			dont_print = <span class="hl str">&quot;true&quot;</span><span class="hl opt">;</span>
+		<span class="hl opt">}</span>
+
+		<span class="hl kwa">if</span> <span class="hl opt">(</span>result<span class="hl opt">[</span><span class="hl num">1</span><span class="hl opt">]</span> == <span class="hl str">&quot;moves&quot;</span><span class="hl opt">) {</span>
+			moves = result<span class="hl opt">[</span><span class="hl num">2</span><span class="hl opt">];</span>
+			dont_print = <span class="hl str">&quot;true&quot;</span><span class="hl opt">;</span>
+		<span class="hl opt">}</span>
+
+		<span class="hl kwa">if</span> <span class="hl opt">(</span>side_found == <span class="hl str">&quot;true&quot;</span><span class="hl opt">) {</span>
+			<span class="hl kwa">print</span> tab_indent entete<span class="hl opt">;</span>
+
+			<span class="hl slc">#level up next time</span>
+			<span class="hl slc"># experience = max_exp-1;</span>
+
+			<span class="hl slc"># as seen in wesnoth/src/unit.cpp:1533,</span>
+			<span class="hl slc"># if &quot;hitpoints&quot; is not set then it is set to the max</span>
+			hitpoints = max_hitpoints_value<span class="hl opt">;</span>
+
+			<span class="hl slc"># Set moves to max</span>
+			movement = max_moves<span class="hl opt">;</span>
+			moves = max_moves<span class="hl opt">;</span>
+		<span class="hl opt">}</span>
+
+		<span class="hl kwa">if</span> <span class="hl opt">(</span>side_found == <span class="hl str">&quot;false&quot;</span><span class="hl opt">) {</span>
+			<span class="hl kwa">print</span> tab_indent <span class="hl str">&quot;## Not modified&quot;</span><span class="hl opt">;</span>
+			hitpoints = other_players_hitpoints<span class="hl opt">;</span>
+		<span class="hl opt">}</span>
+
+		<span class="hl kwa">if</span> <span class="hl opt">(</span>side_found <span class="hl opt">!=</span> <span class="hl str">&quot;&quot;</span><span class="hl opt">) {</span>
+			<span class="hl kwa">if</span> <span class="hl opt">(</span>reset_max_exp<span class="hl opt">)</span>
+				<span class="hl kwa">print</span> tab_indent <span class="hl str">&quot;max_experience=</span><span class="hl esc">\&quot;</span><span class="hl str">&quot;</span> max_exp <span class="hl str">&quot;</span><span class="hl esc">\&quot;</span><span class="hl str">&quot;</span><span class="hl opt">;</span>
+			<span class="hl kwa">print</span> tab_indent <span class="hl str">&quot;experience=</span><span class="hl esc">\&quot;</span><span class="hl str">&quot;</span> experience <span class="hl str">&quot;</span><span class="hl esc">\&quot;</span><span class="hl str">&quot;</span><span class="hl opt">;</span>
+			<span class="hl kwa">print</span> tab_indent <span class="hl str">&quot;hitpoints=</span><span class="hl esc">\&quot;</span><span class="hl str">&quot;</span> hitpoints <span class="hl str">&quot;</span><span class="hl esc">\&quot;</span><span class="hl str">&quot;</span><span class="hl opt">;</span>
+			<span class="hl kwa">print</span> tab_indent <span class="hl str">&quot;movement=</span><span class="hl esc">\&quot;</span><span class="hl str">&quot;</span> movement <span class="hl str">&quot;</span><span class="hl esc">\&quot;</span><span class="hl str">&quot;</span><span class="hl opt">;</span>
+			<span class="hl kwa">print</span> tab_indent <span class="hl str">&quot;moves=</span><span class="hl esc">\&quot;</span><span class="hl str">&quot;</span> moves <span class="hl str">&quot;</span><span class="hl esc">\&quot;</span><span class="hl str">&quot;</span><span class="hl opt">;</span>
+			side_found = <span class="hl str">&quot;&quot;</span><span class="hl opt">;</span>
+		<span class="hl opt">}</span>
+	<span class="hl opt">}</span>
+
+	<span class="hl kwa">if</span> <span class="hl opt">(</span>dont_print <span class="hl opt">!=</span> <span class="hl str">&quot;true&quot;</span><span class="hl opt">)</span>
+		<span class="hl kwa">print</span> $<span class="hl num">0</span><span class="hl opt">;</span>
+
+	dont_print = <span class="hl str">&quot;false&quot;</span><span class="hl opt">;</span>
+<span class="hl opt">}</span>
+
+<span class="hl kwa">END</span> <span class="hl opt">{</span>
+	<span class="hl kwa">if</span> <span class="hl opt">(</span>DEBUG<span class="hl opt">) {</span>
+		<span class="hl kwa">print</span> <span class="hl str">&quot;num side found = &quot;</span> num_side_found<span class="hl opt">;</span>
+		<span class="hl kwa">print</span> <span class="hl str">&quot;num max exp found = &quot;</span> num_max_exp_found<span class="hl opt">;</span>
+		<span class="hl kwa">print</span> <span class="hl str">&quot;num exp found = &quot;</span> num_exp_found<span class="hl opt">;</span>
+		<span class="hl kwa">print</span> <span class="hl str">&quot;num unit found = &quot;</span> num_unit_found<span class="hl opt">;</span>
+		<span class="hl kwa">print</span> <span class="hl str">&quot;num not accessable unit found = &quot;</span> not_accessable_unit<span class="hl opt">;</span>
+		<span class="hl kwa">print</span> <span class="hl str">&quot;num_max_hit_found = &quot;</span> num_max_hit_found<span class="hl opt">;</span>
+		<span class="hl kwa">print</span> <span class="hl str">&quot;num_hit_found = &quot;</span> num_hit_found<span class="hl opt">;</span>
+	<span class="hl opt">}</span>
+<span class="hl opt">}</span>
+
+
+ </div>
+        
+        <div id="footer">
+            <p>© 2009+ Clément David - All texts and images can be used
+                with respect to the <a href=
+            "http://www.opensource.org/licenses/artistic-license-2.0.php">Artistic
+                    license 2.0
+                </a>
+                .<br />
+                 Generated on 
+2015-11-07T17:18:57+01:00
+. 
+                <a href="http://validator.w3.org/check/referer" title="Check the validity of this site&#8217;s HTML">html</a>
+                <a href="http://jigsaw.w3.org/css-validator/check/referer" title="Check the validity of this site&#8217;s CSS">css</a>
+            </p>
+        </div>
+    </body>
+</html>
+
+

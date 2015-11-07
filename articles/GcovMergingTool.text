@@ -1,0 +1,145 @@
+Merging tool for gcov files
+===========================
+
+Many times a unique source file generate different object files when
+compiled. Especially when configuring it with pre-compile flags. I wrote
+this script when working at Geensys to validate the test coverage
+metrics.
+
+What's the need ? 
+------------------
+
+Imagine that you have a module called `Module1`. It is decomposed in
+three files :
+
+-   Module1.c : the implementation code
+-   Module1.h : the external interface declaration
+-   Module1\_Cfg.h : the configuration file for the module
+
+### Sample code
+
+-   Module1.c
+
+        #include "Module1.h"
+
+
+        int a;
+        #if (1 == MOD1_USE_STD_API)
+        int b;
+        #else (0 == MOD1_USE_STD_API)
+        int c;
+        #endif /* (1 == MOD1_USE_STD_API) */
+
+
+        void Mod1_MainFunction (void)
+        {
+            a = 1;
+        #if (1 == MOD1_USE_STD_API)
+            b = 1;
+        #else (0 == MOD1_USE_STD_API)
+            c = 1;
+        #endif /* (1 == MOD1_USE_STD_API) */
+        }
+
+-   Module1.h
+
+        #include "Module1_Cfg.h"
+
+
+        extern int a;
+        #if (1 == MOD1_USE_STD_API)
+        extern int b;
+        #else (0 == MOD1_USE_STD_API)
+        extern int c;
+        #endif /* (1 == MOD1_USE_STD_API) */
+
+
+        void Mod1_MainFunction (void);
+
+-   Module1\_Cfg.h
+
+        #define MOD1_USE_STD_API    1
+
+### But what's the need ???
+
+When testing, you have to generate 2 object files from the same source.
+Each of this object have to be tested with different input files and
+code coverage may differ.
+
+I need this tool to merge the two Module1.gcov files created during
+testing.
+
+merge-gcov.awk 
+---------------
+
+    #!/usr/bin/gawk -f
+    #
+    # Parse *.gcov files passed as arguments and print result file on stdout and 
+    # summary on stderr.
+    #
+    # View summary on windows:
+    #   ./merge-gcov.awk Module1.c.gcov >NUL
+    # Concatenate files:
+    #   ./merge-gcov.awk my-dir1/Module1.c.gcov my-dir2/Module1.gcov \
+    #       >Module1.gcov
+    #
+
+    BEGIN {
+        FS=":"
+    }
+
+    #
+    # Non passed line
+    #
+    $1 ~ /#####\'/ {
+        sum_call[$2] += 0;
+
+        if (ARGIND == ARGC-1)
+        {
+            if (sum_call[$2] != 0)
+                printf "    %5d:%5d:%s\n", sum_call[$2], $2, $3;
+            else
+                print;
+        }
+    }
+
+    #
+    # Comment line
+    #
+    $1 ~ /-\'/ {
+        if (ARGIND == ARGC-1)
+            print;
+    }
+
+    #
+    # Summary line
+    #
+    $1 ~ /function (\w)+ called [0-9]+ returned [0-9]+% blocks executed [0-9]+%\'/ {
+
+    }
+
+    #
+    # Passed line
+    #
+    $1 ~ /[0-9]+\'/ {
+       sum_call[$2] += $1;
+
+       if (ARGIND == ARGC-1)
+       {
+            if (sum_call[$2] != 0)
+                printf "    %5d:%5d:%s\n", sum_call[$2], $2, $3;
+       }
+    }
+
+    END {
+        all_lines = length(sum_call);
+        for (i in sum_call)
+        {
+            if (sum_call[i] > 0)
+                passed_lines++;
+            else
+                non_passed_lines++;
+        }
+
+        print "Line executed: " ((passed_lines*100)/all_lines) "% of " all_lines >"/dev/stderr";
+    }

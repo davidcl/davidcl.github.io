@@ -25,33 +25,42 @@
         <div id="header"> 
 <a href="/index.html">davidcl</a>
 <a href="/articles/index.html">articles</a>
+WesnothSaveParser
  </div>
         <div id="contents"> 
-<h1>Articles</h1>
+<h1>How to always win at Battle for Wesnoth ?</h1>
 
-<h2>How this website is created ?</h2>
+<p>In my spare time, I sometime play at <a href="http://www.wesnoth.org">Battle for
+Wesnoth</a> which is a turn per turn strategy game. In
+some advanced campaigns you should fight very dangerous ennemies and you
+<em>MUST</em> not loose any heros. That&rsquo;s why I use this simple GNU awk script
+to parse saves and tweak some part of it.</p>
 
-<p>This website is created with Gnu Awk, Gnu Make and Markdown. See how I generate
-this website without strong dependencies such as PHP, Python or Perl and a database.</p>
+<h2>How it works ?</h2>
 
-<p><a href="GnuBasedWebGeneration.html">View full article</a>.</p>
+<p>This parser parse each unit parameters which match a specific regular
+expression. For each value at a specific parameter you store the value
+in a variable.</p>
 
-<h2>Wesnoth for cheaters</h2>
+<p>The quick and dirty part of the script is that it print modified values
+when parsing <code>side="n"</code>. Thus all the values have to be in the root of
+the unit. It cannot be used to modify unit capacities.</p>
 
-<p><a href="http://www.wesnoth.org">Battle for Wesnoth</a> is an Open-source game that I sometimes
-play on my spare time. But instead of trying hard to finish the campaign, I
-hacked the save format to heal my heroes.</p>
+<h2>How to use ?</h2>
 
-<p><a href="WesnothSaveParser.html">View full article</a>.</p>
+<p>The default save format is the compressed plain-text. Thus you need an
+extract-transform-and-compress command. The next command parse the
+Modif-old.gz file, transform it and save it to a Modif.gz file.</p>
 
-<h2>GCov merging tool</h2>
+<p><code>zcat Modif-old.gz |gawk -f save.awk |gzip &gt; Modif.gz</code></p>
 
-<p><a href="https://gcc.gnu.org/onlinedocs/gcc/Gcov.html">GCC coverage</a> is a tool used
-to test code coverage in your programs. However if it only works for a build
-without handling compile-time <code>#define</code> nor <code>#ifdef</code>. I wrote a simple awk
-script to merge the results for some build configuration.</p>
+<h2>Download </h2>
 
-<p><a href="GcovMergingTool.html">View full article</a>.</p>
+<ul>
+<li><a href="WesnothSaveParser/save.awk.html">View the script</a></li>
+<li><a href="WesnothSaveParser/save.awk">Download the script</a></li>
+</ul>
+
 
  </div>
         

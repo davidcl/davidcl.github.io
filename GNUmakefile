@@ -17,7 +17,7 @@ directories = projects articles about
 
 # including per-directory specific rules (if any).
 # Use to add sub-directories to the $(directories) variables
--include $(addsuffix /Makefile, $(directories))
+-include $(addsuffix /GNUmakefile, $(directories))
 
 # Adding others path to the directories variable after inclusion
 directories += . styles
@@ -56,13 +56,18 @@ update: $(all-html) $(img-files) $(other-files)
 	echo "update is disabled, use git to commit and push"
 	$(TOUCH) update
 
-.PHONY: clean
+preview: site
+	epiphany http://localhost:8000 &
+	python3 -m http.server 8000
+
 clean:
 	$(RM) $(text-files:%.text=%.htm)
 	$(RM) $(text-files:%.text=%.xhtml) $(html-files:%.htm=%.xhtml)
 	$(RM) $(all-html)
 	$(RM) $(all-atom)
 	$(RM) update
+
+.PHONY: clean preview
 
 # Generic rules
 %.htm: %.text

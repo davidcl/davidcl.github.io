@@ -1,0 +1,35 @@
+How to always win at Battle for Wesnoth ?
+=========================================
+
+In my spare time, I sometime play at [Battle for
+Wesnoth](http://www.wesnoth.org) which is a turn per turn strategy game. In
+some advanced campaigns you should fight very dangerous ennemies and you
+*MUST* not loose any heros. That's why I use this simple GNU awk script
+to parse saves and tweak some part of it.
+
+How it works ?
+--------------
+
+This parser parse each unit parameters which match a specific regular
+expression. For each value at a specific parameter you store the value
+in a variable.
+
+The quick and dirty part of the script is that it print modified values
+when parsing `side="n"`. Thus all the values have to be in the root of
+the unit. It cannot be used to modify unit capacities.
+
+How to use ?
+------------
+
+The default save format is the compressed plain-text. Thus you need an
+extract-transform-and-compress command. The next command parse the
+Modif-old.gz file, transform it and save it to a Modif.gz file.
+
+`zcat Modif-old.gz |gawk -f save.awk |gzip > Modif.gz`
+
+Download 
+---------
+
+-   [View the script](WesnothSaveParser/save.awk.html)
+-   [Download the script](WesnothSaveParser/save.awk)
+
