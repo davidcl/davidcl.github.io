@@ -25,7 +25,7 @@ directories <span class="hl opt">=</span> projects articles about
 
 <span class="hl slc"># including per-directory specific rules (if any).</span>
 <span class="hl slc"># Use to add sub-directories to the $(directories) variables</span>
-<span class="hl opt">-</span><span class="hl kwb">include</span> <span class="hl opt">$(</span><span class="hl kwa">addsuffix</span> <span class="hl opt">/</span>Makefile<span class="hl opt">, $(</span>directories<span class="hl opt">))</span>
+<span class="hl opt">-</span><span class="hl kwb">include</span> <span class="hl opt">$(</span><span class="hl kwa">addsuffix</span> <span class="hl opt">/</span>GNUmakefile<span class="hl opt">, $(</span>directories<span class="hl opt">))</span>
 
 <span class="hl slc"># Adding others path to the directories variable after inclusion</span>
 directories <span class="hl opt">+=</span> . styles
@@ -64,13 +64,18 @@ update<span class="hl opt">: $(</span>all-html<span class="hl opt">) $(</span>im
 	echo <span class="hl str">&quot;update is disabled, use git to commit and push&quot;</span>
 	<span class="hl opt">$(</span>TOUCH<span class="hl opt">)</span> update
 
-.PHONY<span class="hl opt">:</span> <span class="hl kwa">clean</span>
+preview<span class="hl opt">:</span> site
+	epiphany http<span class="hl opt">://</span>localhost<span class="hl opt">:</span><span class="hl num">8000</span> <span class="hl opt">&amp;</span>
+	python3 <span class="hl opt">-</span>m http.server <span class="hl num">8000</span>
+
 <span class="hl kwa">clean</span><span class="hl opt">:</span>
 	<span class="hl opt">$(</span>RM<span class="hl opt">) $(</span>text-files<span class="hl opt">:%</span>.text<span class="hl opt">=%</span>.htm<span class="hl opt">)</span>
 	<span class="hl opt">$(</span>RM<span class="hl opt">) $(</span>text-files<span class="hl opt">:%</span>.text<span class="hl opt">=%</span>.xhtml<span class="hl opt">) $(</span>html-files<span class="hl opt">:%</span>.htm<span class="hl opt">=%</span>.xhtml<span class="hl opt">)</span>
 	<span class="hl opt">$(</span>RM<span class="hl opt">) $(</span>all-html<span class="hl opt">)</span>
 	<span class="hl opt">$(</span>RM<span class="hl opt">) $(</span>all-atom<span class="hl opt">)</span>
 	<span class="hl opt">$(</span>RM<span class="hl opt">)</span> update
+
+.PHONY<span class="hl opt">:</span> <span class="hl kwa">clean</span> preview
 
 <span class="hl slc"># Generic rules</span>
 <span class="hl opt">%</span>.htm<span class="hl opt">: %</span>.text
