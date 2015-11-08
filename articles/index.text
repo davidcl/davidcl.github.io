@@ -5,7 +5,7 @@
 This website is created with Gnu Awk, Gnu Make and Markdown. See how I generate
 this website without strong dependencies such as PHP, Python or Perl and a database.
 
-[View full article](GnuBasedWebGeneration.html).
+[View full article](GnuBasedWebGeneration/index.html).
 
 ## Wesnoth for cheaters ##
 
@@ -13,7 +13,7 @@ this website without strong dependencies such as PHP, Python or Perl and a datab
 play on my spare time. But instead of trying hard to finish the campaign, I
 hacked the save format to heal my heroes.
 
-[View full article](WesnothSaveParser.html).
+[View full article](WesnothSaveParser/index.html).
 
 ## GCov merging tool ##
 
@@ -22,5 +22,5 @@ to test code coverage in your programs. However if it only works for a build
 without handling compile-time `#define` nor `#ifdef`. I wrote a simple awk 
 script to merge the results for some build configuration.
 
-[View full article](GcovMergingTool.html).
+[View full article](GcovMergingTool/index.html).
 

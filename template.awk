@@ -13,8 +13,10 @@ BEGIN {
 /^:HEADER:$/ {
 	print "<a href=\"/index.html\">davidcl</a>" >output;
 	num_directories = split (output, path, "/");
+        basepath = "/"
 	for (i=1; i<num_directories; i++) {
-		print "<a href=\"/" path[i] "/index.html\">" path[i] "</a>" >output;
+		print "<a href=\"" basepath path[i] "/index.html\">" path[i] "</a>" >output;
+                basepath = basepath path[i] "/";
 	}
 	
 	name = path[num_directories];

@@ -32,7 +32,7 @@ First we must have a symetric pre-suffix readable pattern : <code>\_\_</code> is
 Secondly we need a unique tag name pattern, a one who no man must write. The
 double collumns is not used in a pattern like that: <code>:BLABLABLA:</code>.
 
-[See the template for this site](GnuBasedWebGeneration/default.template.html).
+[See the template for this site](default.template.html).
 
 ## Awk script ##
 
@@ -82,7 +82,7 @@ For this site, I have the "about", "project", ... directories.
 <span class="hl sym">}</span>
 </pre>
 
-[See the script for this site](GnuBasedWebGeneration/template.awk.html).
+[See the script for this site](template.awk.html).
 
 ## Makefile ##
 
@@ -130,7 +130,7 @@ Secondly, generic commands :
 	<span class="hl sym">$(</span>AWK<span class="hl sym">) -</span>f template.awk <span class="hl sym">-</span>v input<span class="hl sym">=</span><span class="hl str">&quot;$&lt;&quot;</span> <span class="hl sym">-</span>v output<span class="hl sym">=</span><span class="hl str">&quot;$&#64;&quot;</span> templates<span class="hl sym">/</span>atom-entry.template
 </pre>
 
-[See the makefile for this site](GnuBasedWebGeneration/GNUmakefile.html).
+[See the makefile for this site](GNUmakefile.html).
 
 ## Download ##
 

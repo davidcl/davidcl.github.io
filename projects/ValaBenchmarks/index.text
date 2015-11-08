@@ -61,4 +61,4 @@ NOTE: Mono size is very small but you must add the size of the runtime
 
 ### The graphs
 
-![The results](vala-benchmarks/results.png)
+![The results](results.png)

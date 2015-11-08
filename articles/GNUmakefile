@@ -3,6 +3,7 @@
 #
 
 directories += \
+ articles/GcovMergingTool \
  articles/GnuBasedWebGeneration \
  articles/WesnothSaveParser
 

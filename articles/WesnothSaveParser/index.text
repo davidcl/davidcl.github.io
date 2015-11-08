@@ -30,6 +30,6 @@ Modif-old.gz file, transform it and save it to a Modif.gz file.
 Download 
 ---------
 
--   [View the script](WesnothSaveParser/save.awk.html)
--   [Download the script](WesnothSaveParser/save.awk)
+-   [View the script](save.awk.html)
+-   [Download the script](save.awk)
 

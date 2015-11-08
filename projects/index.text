@@ -1,6 +1,6 @@
 # Projects #
 
-* [Vala benchmarks](ValaBenchmarks.html)
+* [Vala benchmarks](ValaBenchmarks/index.html)
 
     This project aims to implement "The Computer Language Benchmarks Game"
 in Vala.
