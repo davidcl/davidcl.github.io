@@ -54,7 +54,7 @@ feed: $(all-atom)
 update: $(all-html) $(img-files) $(other-files)
 	git push
 	git ls-files >update
-	rsync -avz -e ssh --delete --files-from=update . davidcl@fedorapeople.org:/home/fedora/davidcl/public_html
+	rsync -avz -e ssh --progress --delete --files-from=update . davidcl@fedorapeople.org:/home/fedora/davidcl/public_html
 
 preview: site
 	epiphany http://localhost:8000 &
