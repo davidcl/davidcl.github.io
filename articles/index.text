@@ -24,3 +24,13 @@ script to merge the results for some build configuration.
 
 [View full article](GcovMergingTool/index.html).
 
+## French Internship report ##
+
+For the record, I published my internship report on this website. This is
+one of my first "serious" project. I worked for Geensys and I had to
+implement the TCP/IP AUTOSAR modules re-using an Open-source TCP/IP stack.
+For that, I used a PowerPC MPC5668 and an AVR32 with the open-source
+[Trampoline OSEK](http://github.com/TrampolineRTOS) OS.
+
+[View full article - PDF](FR_InternshipReport.pdf).
+
