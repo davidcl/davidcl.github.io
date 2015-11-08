@@ -52,9 +52,9 @@ feed: $(all-atom)
 	@echo "feed is not implemented by now" > /dev/stderr
 
 update: $(all-html) $(img-files) $(other-files)
-	# $(SH) ./update.sh $?
-	echo "update is disabled, use git to commit and push"
-	$(TOUCH) update
+	git push
+	git ls-files >update
+	rsync -avz -e ssh --delete --files-from=update . davidcl@fedorapeople.org:/home/fedora/davidcl/public_html
 
 preview: site
 	epiphany http://localhost:8000 &
